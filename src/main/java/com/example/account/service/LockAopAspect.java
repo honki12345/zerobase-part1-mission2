@@ -1,5 +1,6 @@
 package com.example.account.service;
 
+import com.example.account.aop.AccountLockIdInterface;
 import com.example.account.dto.UseBalance;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,16 +19,16 @@ public class LockAopAspect {
     @Around("@annotation(com.example.account.aop.AccountLock) && args(request)")
     public Object aroundMethod(
             ProceedingJoinPoint pjp,
-            UseBalance.Request request
+            AccountLockIdInterface request
     ) throws Throwable {
         // lock 취득 시도
-        lockService.lock(accountNumber);
+        lockService.lock(request.getAccountNumber());
 
         try{
             return pjp.proceed();
         }finally {
             // lock 해제
-            lockService.unlock(accountNumber);
+            lockService.unlock(request.getAccountNumber());
         }
     }
 }

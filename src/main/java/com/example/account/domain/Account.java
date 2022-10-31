@@ -23,6 +23,11 @@ public class Account {
     @GeneratedValue
     private Long id;
 
+    @CreatedDate
+    private LocalDateTime createdAt;
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
     @ManyToOne
     private AccountUser accountUser;
     private String accountNumber;
@@ -33,11 +38,6 @@ public class Account {
 
     private LocalDateTime registeredAt;
     private LocalDateTime unRegisteredAt;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
 
     public void useBalance(Long amount) {
         if (amount > balance) {
